@@ -20,13 +20,18 @@ def drawMaze(maze, size):
 
     for i in range(maze.size[1]):
         for j in range(maze.size[0]):
-            if maze.map[i][j] in ("#","+"):
-                screen.blit(wall, (i * size, j * size + offset))
+            try:
+                screen.blit(tiles[maze.map[i][j]], (i * size, j * size + offset))
+            except: pass
 
 def loadTextures(size):
-    global wall, player
+    global tiles, player
 
-    wall = pygame.transform.scale(pygame.image.load("textures/wall.png"), (size,size))
+    tiles = {
+        "#":pygame.transform.scale(pygame.image.load("textures/wall.png"), (size,size)),
+        "+":pygame.transform.scale(pygame.image.load("textures/wall.png"), (size,size)),
+        "F":pygame.transform.scale(pygame.image.load("textures/finish.png"), (size,size)),
+            }
 
     player = [
         pygame.transform.scale(pygame.image.load("textures/player_up.png"), (size * 4 / 5, size * 4 / 5)),
