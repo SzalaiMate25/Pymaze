@@ -1,9 +1,10 @@
 import pygame
 
-def init(w, h):
-    global width, height, screen, clock
+def init(w, h, o):
+    global width, height, screen, clock, offset
     width = w
     height = h
+    offset = o
 
     pygame.init()
 
@@ -12,5 +13,7 @@ def init(w, h):
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
 
+backgroundColor = (203,208,209)
+
 def drawMaze():
-    pass
+    screen.fill(backgroundColor)
