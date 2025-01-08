@@ -39,3 +39,15 @@ def loadTextures(size):
         pygame.transform.scale(pygame.image.load("textures/player_down.png"), (size * 4 / 5, size * 4 / 5)),
         pygame.transform.scale(pygame.image.load("textures/player_left.png"), (size * 4 / 5, size * 4 / 5))
     ]
+
+def generateRects(maze, size):
+    rects = []
+
+    for i in range(maze.size[1]):
+        for j in range(maze.size[0]):
+            if maze.map[i][j] in ("#","+"):
+                rect = tiles.values()[0].get_rect()
+                rect.right = i * size
+                rect.top = j * size + offset
+                rects.append(rect)
+    return rects

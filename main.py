@@ -19,13 +19,13 @@ sizes = ( # ((size_x, size_y), tileSize)
 window.loadTextures(sizes[difficulty][1])
 maze = functions.generate(functions.createEmpty(sizes[difficulty][0]))
 
+rects = window.generateRects(maze, sizes[difficulty][1])
+
 while True:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
-
-
 
     window.drawMaze(maze, sizes[difficulty][1])
 
