@@ -15,7 +15,7 @@ def createEmpty(size):
     return map
 
 def generate(map):
-    maze = maze.Maze(map, [[0 for j in range(len(map[0]))] for i in range(len(map))])
+    newMaze = maze.Maze(map, [[0 for j in range(len(map[0]))] for i in range(len(map))])
 
     pos = (2,2)
     dir = rand(0,3)
@@ -23,7 +23,7 @@ def generate(map):
     highestDistance = 0
     destination = (2,2)
 
-    maze.map[pos[0]][pos[1]] = "."
+    newMaze.map[pos[0]][pos[1]] = "."
     visited = set()
 
     iterations = 0
@@ -34,19 +34,18 @@ def generate(map):
 
         if rand(1,3) in (1,2):
             dir = (dir + rand(-1,1) + 4) % 4
+        if newMaze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] != "+":
+            if newMaze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] == "#":
+                newMaze.map[pos[0] + offsets[dir][0]][pos[1] + offsets[dir][1]] = "."
+                newMaze.distances[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] = newMaze.distances[pos[0]][pos[1]] + 1
 
-        if maze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] != "+":
-            if maze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] == "#":
-                maze.map[pos[0] + offsets[dir][0]][pos[1] + offsets[dir][1]] = "."
-                maze.distances[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] = maze.distances[pos[0]][pos[1]] + 1
-
-                if maze.distances[pos[0]][pos[1]] + 1 > highestDistance:
+                if newMaze.distances[pos[0]][pos[1]] + 1 > highestDistance:
                     destination = (pos[0] + doffsets[dir][0], pos[1] + doffsets[dir][1])
-                    highestDistance = maze.distances[pos[0]][pos[1]] + 1
+                    highestDistance = newMaze.distances[pos[0]][pos[1]] + 1
             
             pos = (pos[0] + doffsets[dir][0], pos[1] + doffsets[dir][1])
-            maze.map[pos[0]][pos[1]] = "."
+            newMaze.map[pos[0]][pos[1]] = "."
 
-            if len(visited) == int((maze.size[0] - 3)/2) * int((maze.size[1] - 3)/2):
-                maze.map[destination[0]][destination[1]] = "F"
-                return maze
+            if len(visited) == int((newMaze.size[0] - 3)/2) * int((newMaze.size[1] - 3)/2):
+                newMaze.map[destination[0]][destination[1]] = "F"
+                return newMaze
