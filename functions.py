@@ -49,6 +49,4 @@ def generate(map):
 
             if len(visited) == int((maze.size[0] - 3)/2) * int((maze.size[1] - 3)/2):
                 maze.map[destination[0]][destination[1]] = "F"
-                break
-    
-    return maze
+                return maze
