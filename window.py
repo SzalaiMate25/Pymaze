@@ -136,7 +136,7 @@ def createSingleRects():
     finishRect = list(tiles.values())[0].get_rect()
 
 def loadWindow():
-    global windowRect, closeRect, completeRect, completeText
+    global windowRect, closeRect, completeRect, completeText, difficultyPos, titleFont, diffText, diffRect, valueFont
 
     windowRect = window.get_rect()
     windowRect.center = (width / 2, height / 2)
@@ -151,7 +151,26 @@ def loadWindow():
     completeRect = completeText.get_rect()
     completeRect.center = completePos
 
+    smallTitleFont = pygame.font.Font("freesansbold.ttf",32)
+
+    difficultyPos = (width / 2, height / 2 - windowRect.height / 2 + 200)
+
+    valueFont = pygame.font.Font("freesansbold.ttf",72)
+
+    diffTitlePos = (width / 2, height / 2 - windowRect.height / 2 + 150)
+    diffText = smallTitleFont.render("Difficulty:",True,"black")
+    diffRect = diffText.get_rect()
+    diffRect.center = diffTitlePos
+    
+
 def drawWindow(difficulty, time, bestTime):
+
+    difficultyText = valueFont.render(("Easy","Medium","Hard")[difficulty],True,"black")
+    difficultyRect = difficultyText.get_rect()
+    difficultyRect.center = difficultyPos
+
     screen.blit(window, windowRect)
     screen.blit(close, closeRect)
     screen.blit(completeText, completeRect)
+    screen.blit(diffText, diffRect)
+    screen.blit(difficultyText, difficultyRect)
