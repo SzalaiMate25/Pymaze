@@ -17,6 +17,7 @@ def init(w, h, o):
     loadTimer()
     loadButtons()
     loadWindow()
+    loadWindowButtons()
 
 def loadTimer():
     global timerFont, timerPos
@@ -106,12 +107,13 @@ def loadTextures(size):
     ]
 
 def loadFixedTextures():
-    global button, window, close
+    global button, window, close, buttonLarge
 
     button = pygame.image.load("textures/button.png")
 
     window = pygame.image.load("textures/window.png")
     close = pygame.image.load("textures/close.png")
+    buttonLarge = pygame.image.load("textures/largebutton.png")
 
 def generateRects(maze, size):
     rects = []
@@ -177,6 +179,18 @@ def loadWindow():
 
     bestTimePos = (width / 2, height / 2 - windowRect.height / 2 + 450)
 
+def loadWindowButtons():
+    global playAgainRect, playAgainTextRect, playAgainText
+
+    playAgainPos = (width / 2, height / 2 + windowRect.height / 2 - 75)
+
+    playAgainRect = buttonLarge.get_rect()
+    playAgainRect.center = playAgainPos
+
+    playAgainText = diffFont.render("Play Again",True,"black")
+    playAgainTextRect = playAgainText.get_rect()
+    playAgainTextRect.center = playAgainPos
+
 def drawWindow(difficulty, time, bestTime, newBest):
 
     difficultyText = valueFont.render(("Easy","Medium","Hard")[difficulty],True,"black")
@@ -203,3 +217,8 @@ def drawWindow(difficulty, time, bestTime, newBest):
 
     screen.blit(bestTimeTitleText, bestTimeTitleRect)
     screen.blit(bestTimeText, bestTimeRect)
+
+    # buttons
+
+    screen.blit(buttonLarge, playAgainRect)
+    screen.blit(playAgainText, playAgainTextRect)

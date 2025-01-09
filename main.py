@@ -135,9 +135,14 @@ while True:
     if windowOpen:
         window.drawWindow(difficulty, runTime, timer.convertTime(highscores.getBestScore(difficulty),1,specificity=difficulty + 1), newBest)
 
+        mousePos = pygame.mouse.get_pos()
+
         if pygame.mouse.get_pressed()[0]:
-            if window.closeRect.collidepoint(pygame.mouse.get_pos()):
+            if window.closeRect.collidepoint(mousePos):
                 windowOpen = False
+
+            if window.playAgainRect.collidepoint(mousePos):
+                start(difficulty)
 
     pygame.display.flip()
     window.clock.tick(60)
