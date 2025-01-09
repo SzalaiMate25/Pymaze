@@ -51,12 +51,13 @@ def generateRects(maze, size):
         for j in range(maze.size[0]):
             if maze.map[i][j] in ("#","+"):
                 rect = list(tiles.values())[0].get_rect()
-                rect.right = i * size
+                rect.right = i * size + size
                 rect.top = j * size + offset
                 rects.append(rect)
     return rects
 
 def createPlayerRect():
-    global playerRect
+    global playerRect, playerCollider
 
     playerRect = player[0].get_rect()
+    playerCollider = player[0].get_rect()
