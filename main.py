@@ -130,7 +130,7 @@ while True:
     window.drawPlayer(playerPos, direction)
     window.drawGUI(timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1) if run else runTime)
     if windowOpen:
-        window.drawWindow(difficulty, runTime, highscores.getBestScore(difficulty))
+        window.drawWindow(difficulty, runTime, timer.convertTime(highscores.getBestScore(difficulty),1,specificity=difficulty + 1))
 
         if pygame.mouse.get_pressed()[0]:
             if window.closeRect.collidepoint(pygame.mouse.get_pos()):

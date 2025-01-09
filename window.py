@@ -136,7 +136,8 @@ def createSingleRects():
     finishRect = list(tiles.values())[0].get_rect()
 
 def loadWindow():
-    global windowRect, closeRect, completeRect, completeText, difficultyPos, titleFont, diffText, diffRect, valueFont
+    global windowRect, closeRect, completeRect, completeText
+    global difficultyPos, titleFont, diffText, diffRect, valueFont, yourTimeTitle, yourTimeTitleRect, yourTimePos
 
     windowRect = window.get_rect()
     windowRect.center = (width / 2, height / 2)
@@ -161,7 +162,13 @@ def loadWindow():
     diffText = smallTitleFont.render("Difficulty:",True,"black")
     diffRect = diffText.get_rect()
     diffRect.center = diffTitlePos
-    
+
+    yourTimeTitlePos = (width / 2, height / 2 - windowRect.height / 2 + 300)
+    yourTimeTitle = smallTitleFont.render("Your Time:",True,"black")
+    yourTimeTitleRect = yourTimeTitle.get_rect()
+    yourTimeTitleRect.center = yourTimeTitlePos
+
+    yourTimePos = (width / 2, height / 2 - windowRect.height / 2 + 350)
 
 def drawWindow(difficulty, time, bestTime):
 
@@ -169,8 +176,16 @@ def drawWindow(difficulty, time, bestTime):
     difficultyRect = difficultyText.get_rect()
     difficultyRect.center = difficultyPos
 
+    yourTimeText = valueFont.render(time,True,"black")
+    yourTimeRect = yourTimeText.get_rect()
+    yourTimeRect.center = yourTimePos
+
     screen.blit(window, windowRect)
     screen.blit(close, closeRect)
     screen.blit(completeText, completeRect)
+
     screen.blit(diffText, diffRect)
     screen.blit(difficultyText, difficultyRect)
+    
+    screen.blit(yourTimeTitle, yourTimeTitleRect)
+    screen.blit(yourTimeText, yourTimeRect)
