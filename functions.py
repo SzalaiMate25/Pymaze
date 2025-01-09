@@ -1,5 +1,6 @@
 import maze
 from random import randint as rand
+from copy import deepcopy as copy
 
 offsets = ((-1,0),(0,1),(1,0),(0,-1))
 doffsets = ((-2,0),(0,2),(2,0),(0,-2))
@@ -48,4 +49,5 @@ def generate(map):
 
             if len(visited) == int((newMaze.size[0] - 3)/2) * int((newMaze.size[1] - 3)/2):
                 newMaze.map[destination[0]][destination[1]] = "F"
+                newMaze.finishPos = [destination[0],destination[1]]
                 return newMaze

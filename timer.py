@@ -43,7 +43,7 @@ class Timer:
             seconds = "0" + str(seconds)
 
         if specificity == 1:
-            return seconds
+            return str(seconds)
         if specificity == 2:
             return f"{minutes}:{seconds}"
         if specificity == 3:

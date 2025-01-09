@@ -10,12 +10,13 @@ def init(w, h, o):
 
     pygame.display.set_caption('Pymaze')
 
-    screen = pygame.display.set_mode((width, height))
+    screen = pygame.display.set_mode((width, height), flags=pygame.FULLSCREEN|pygame.SCALED)
     clock = pygame.time.Clock()
 
     loadFixedTextures()
     loadTimer()
     loadButtons()
+    loadWindow()
 
 def loadTimer():
     global timerFont, timerPos
@@ -105,9 +106,12 @@ def loadTextures(size):
     ]
 
 def loadFixedTextures():
-    global button
+    global button, window, close
 
     button = pygame.image.load("textures/button.png")
+
+    window = pygame.image.load("textures/window.png")
+    close = pygame.image.load("textures/close.png")
 
 def generateRects(maze, size):
     rects = []
@@ -130,3 +134,24 @@ def createSingleRects():
     playerRect = player[0].get_rect()
     playerCollider = player[0].get_rect()
     finishRect = list(tiles.values())[0].get_rect()
+
+def loadWindow():
+    global windowRect, closeRect, completeRect, completeText
+
+    windowRect = window.get_rect()
+    windowRect.center = (width / 2, height / 2)
+
+    closeRect = close.get_rect()
+    closeRect.center = (windowRect.topright[0] - 10,windowRect.topright[1] + 10)
+
+    titleFont = pygame.font.Font("freesansbold.ttf",48)
+
+    completePos = (width / 2, height / 2 - windowRect.height / 2 + 50)
+    completeText = titleFont.render("Maze Completed!",True,"black")
+    completeRect = completeText.get_rect()
+    completeRect.center = completePos
+
+def drawWindow(difficulty, time, bestTime):
+    screen.blit(window, windowRect)
+    screen.blit(close, closeRect)
+    screen.blit(completeText, completeRect)
