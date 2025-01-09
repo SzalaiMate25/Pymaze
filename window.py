@@ -182,7 +182,7 @@ def loadWindow():
 def loadWindowButtons():
     global playAgainRect, playAgainTextRect, playAgainText, quitRect, quitText, quitTextRect
 
-    playAgainPos = (width / 2, height / 2 + windowRect.height / 2 - 75)
+    playAgainPos = (width / 2 - 100, height / 2 + windowRect.height / 2 - 75)
 
     playAgainRect = buttonLarge.get_rect()
     playAgainRect.center = playAgainPos
@@ -191,7 +191,7 @@ def loadWindowButtons():
     playAgainTextRect = playAgainText.get_rect()
     playAgainTextRect.center = playAgainPos
 
-    quitPos = (width / 2 + 175, height / 2 + windowRect.height / 2 - 75)
+    quitPos = (width / 2 + 100, height / 2 + windowRect.height / 2 - 75)
 
     quitRect = buttonLarge.get_rect()
     quitRect.center = quitPos
