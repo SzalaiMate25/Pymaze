@@ -54,10 +54,14 @@ def generateRects(maze, size):
                 rect.right = i * size + size
                 rect.top = j * size + offset
                 rects.append(rect)
+            elif maze.map[i][j] == "F":
+                finishRect.right = i * size + size
+                finishRect.top = j * size + offset
     return rects
 
-def createPlayerRect():
-    global playerRect, playerCollider
+def createSingleRects():
+    global playerRect, playerCollider, finishRect
 
     playerRect = player[0].get_rect()
     playerCollider = player[0].get_rect()
+    finishRect = list(tiles.values())[0].get_rect()

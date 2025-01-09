@@ -23,7 +23,7 @@ playerPos = [sizes[difficulty][1] * 2.5, sizes[difficulty][1] * 2.5]
 speed = speeds[difficulty]
 
 window.loadTextures(sizes[difficulty][1])
-window.createPlayerRect()
+window.createSingleRects()
 maze = functions.generate(functions.createEmpty(sizes[difficulty][0]))
 
 rects = window.generateRects(maze, sizes[difficulty][1])
@@ -86,6 +86,9 @@ while True:
         else:
             playerPos[0] -= speed / (keys[pygame.K_LSHIFT] + 1)
 
+    if window.playerRect.colliderect(window.finishRect):
+        print("Yippee!!")
+        exit()
 
     window.drawMaze(maze, sizes[difficulty][1])
     window.drawPlayer(playerPos, direction)
