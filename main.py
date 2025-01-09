@@ -9,7 +9,7 @@ from copy import deepcopy as copy
 pygame.init()
 window.init(1080, 892, 100) # The actual size of the maze will be 1080x892, as the top 100 pixels will be taken up by the UI
 
-difficulty = 0
+difficulty = 1
 
 sizes = ( # ((size_x, size_y), tileSize)
     ((15, 11), 72), # 0 - easy
@@ -99,6 +99,7 @@ while True:
 
     window.drawMaze(maze, sizes[difficulty][1])
     window.drawPlayer(playerPos, direction)
+    window.drawGUI(timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1))
 
     pygame.display.flip()
     window.clock.tick(60)

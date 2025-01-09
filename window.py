@@ -13,6 +13,27 @@ def init(w, h, o):
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
 
+    loadTimer()
+
+def loadTimer():
+    global timerFont, timerPos
+
+    timerFont = pygame.font.Font("freesansbold.ttf",48)
+    timerPos = (width / 2, 50)
+
+def drawTimer(timer):
+    global timerText, timerRect
+
+    timerText = timerFont.render(timer,True,"black")
+
+    timerRect = timerText.get_rect()
+    timerRect.center = timerPos
+
+    screen.blit(timerText, timerRect)
+
+def drawGUI(timer):
+    drawTimer(timer)
+
 backgroundColor = (203,208,209)
 
 def drawMaze(maze, size):
