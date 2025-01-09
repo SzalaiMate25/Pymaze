@@ -180,7 +180,7 @@ def loadWindow():
     bestTimePos = (width / 2, height / 2 - windowRect.height / 2 + 450)
 
 def loadWindowButtons():
-    global playAgainRect, playAgainTextRect, playAgainText
+    global playAgainRect, playAgainTextRect, playAgainText, quitRect, quitText, quitTextRect
 
     playAgainPos = (width / 2, height / 2 + windowRect.height / 2 - 75)
 
@@ -190,6 +190,15 @@ def loadWindowButtons():
     playAgainText = diffFont.render("Play Again",True,"black")
     playAgainTextRect = playAgainText.get_rect()
     playAgainTextRect.center = playAgainPos
+
+    quitPos = (width / 2 + 175, height / 2 + windowRect.height / 2 - 75)
+
+    quitRect = buttonLarge.get_rect()
+    quitRect.center = quitPos
+
+    quitText = diffFont.render("Quit",True,"black")
+    quitTextRect = quitText.get_rect()
+    quitTextRect.center = quitPos
 
 def drawWindow(difficulty, time, bestTime, newBest):
 
@@ -222,3 +231,6 @@ def drawWindow(difficulty, time, bestTime, newBest):
 
     screen.blit(buttonLarge, playAgainRect)
     screen.blit(playAgainText, playAgainTextRect)
+
+    screen.blit(buttonLarge, quitRect)
+    screen.blit(quitText, quitTextRect)

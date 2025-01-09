@@ -144,5 +144,8 @@ while True:
             if window.playAgainRect.collidepoint(mousePos):
                 start(difficulty)
 
+            if window.quitRect.collidepoint(mousePos):
+                exit()
+
     pygame.display.flip()
     window.clock.tick(60)
