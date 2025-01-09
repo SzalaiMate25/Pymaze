@@ -137,7 +137,7 @@ def createSingleRects():
 
 def loadWindow():
     global windowRect, closeRect, completeRect, completeText
-    global difficultyPos, titleFont, diffText, diffRect, valueFont, yourTimeTitle, yourTimeTitleRect, yourTimePos
+    global difficultyPos, titleFont, diffText, diffRect, valueFont, yourTimeTitle, yourTimeTitleRect, yourTimePos, bestTimeTitleRect, bestTimeTitleText, bestTimePos
 
     windowRect = window.get_rect()
     windowRect.center = (width / 2, height / 2)
@@ -163,14 +163,21 @@ def loadWindow():
     diffRect = diffText.get_rect()
     diffRect.center = diffTitlePos
 
-    yourTimeTitlePos = (width / 2, height / 2 - windowRect.height / 2 + 300)
+    yourTimeTitlePos = (width / 2, height / 2 - windowRect.height / 2 + 275)
     yourTimeTitle = smallTitleFont.render("Your Time:",True,"black")
     yourTimeTitleRect = yourTimeTitle.get_rect()
     yourTimeTitleRect.center = yourTimeTitlePos
 
-    yourTimePos = (width / 2, height / 2 - windowRect.height / 2 + 350)
+    yourTimePos = (width / 2, height / 2 - windowRect.height / 2 + 325)
 
-def drawWindow(difficulty, time, bestTime):
+    bestTimeTitlePos = (width / 2, height / 2 - windowRect.height / 2 + 400)
+    bestTimeTitleText = smallTitleFont.render("Best Time:",True,"black")
+    bestTimeTitleRect = bestTimeTitleText.get_rect()
+    bestTimeTitleRect.center = bestTimeTitlePos
+
+    bestTimePos = (width / 2, height / 2 - windowRect.height / 2 + 450)
+
+def drawWindow(difficulty, time, bestTime, newBest):
 
     difficultyText = valueFont.render(("Easy","Medium","Hard")[difficulty],True,"black")
     difficultyRect = difficultyText.get_rect()
@@ -179,6 +186,10 @@ def drawWindow(difficulty, time, bestTime):
     yourTimeText = valueFont.render(time,True,"black")
     yourTimeRect = yourTimeText.get_rect()
     yourTimeRect.center = yourTimePos
+
+    bestTimeText = valueFont.render(bestTime,True,"black")
+    bestTimeRect = bestTimeText.get_rect()
+    bestTimeRect.center = bestTimePos
 
     screen.blit(window, windowRect)
     screen.blit(close, closeRect)
@@ -189,3 +200,6 @@ def drawWindow(difficulty, time, bestTime):
     
     screen.blit(yourTimeTitle, yourTimeTitleRect)
     screen.blit(yourTimeText, yourTimeRect)
+
+    screen.blit(bestTimeTitleText, bestTimeTitleRect)
+    screen.blit(bestTimeText, bestTimeRect)
