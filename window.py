@@ -94,26 +94,26 @@ def loadTextures(size):
     global tiles, player, button
 
     tiles = {
-        "#":pygame.transform.scale(pygame.image.load("textures/wall.png"), (size,size)),
-        "+":pygame.transform.scale(pygame.image.load("textures/wall.png"), (size,size)),
-        "F":pygame.transform.scale(pygame.image.load("textures/finish.png"), (size,size)),
+        "#":pygame.transform.scale(pygame.image.load("textures/maze/wall.png"), (size,size)),
+        "+":pygame.transform.scale(pygame.image.load("textures/maze/wall.png"), (size,size)),
+        "F":pygame.transform.scale(pygame.image.load("textures/maze/finish.png"), (size,size)),
             }
 
     player = [
-        pygame.transform.scale(pygame.image.load("textures/player_up.png"), (size * 4 / 5, size * 4 / 5)),
-        pygame.transform.scale(pygame.image.load("textures/player_right.png"), (size * 4 / 5, size * 4 / 5)),
-        pygame.transform.scale(pygame.image.load("textures/player_down.png"), (size * 4 / 5, size * 4 / 5)),
-        pygame.transform.scale(pygame.image.load("textures/player_left.png"), (size * 4 / 5, size * 4 / 5))
+        pygame.transform.scale(pygame.image.load("textures/maze/player_up.png"), (size * 4 / 5, size * 4 / 5)),
+        pygame.transform.scale(pygame.image.load("textures/maze/player_right.png"), (size * 4 / 5, size * 4 / 5)),
+        pygame.transform.scale(pygame.image.load("textures/maze/player_down.png"), (size * 4 / 5, size * 4 / 5)),
+        pygame.transform.scale(pygame.image.load("textures/maze/player_left.png"), (size * 4 / 5, size * 4 / 5))
     ]
 
 def loadFixedTextures():
     global button, window, close, buttonLarge
 
-    button = pygame.image.load("textures/button.png")
+    button = pygame.image.load("textures/gui/button.png")
 
-    window = pygame.image.load("textures/window.png")
-    close = pygame.image.load("textures/close.png")
-    buttonLarge = pygame.image.load("textures/largebutton.png")
+    window = pygame.image.load("textures/gui/window.png")
+    close = pygame.image.load("textures/gui/close.png")
+    buttonLarge = pygame.image.load("textures/gui/largebutton.png")
 
 def generateRects(maze, size):
     rects = []
