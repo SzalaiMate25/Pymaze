@@ -24,6 +24,10 @@ def drawMaze(maze, size):
                 screen.blit(tiles[maze.map[i][j]], (i * size, j * size + offset))
             except: pass
 
+def drawPlayer(pos, dir):
+    playerRect.center = (pos[0], pos[1] + offset)
+    screen.blit(player[dir], playerRect)
+
 def loadTextures(size):
     global tiles, player
 
@@ -46,8 +50,13 @@ def generateRects(maze, size):
     for i in range(maze.size[1]):
         for j in range(maze.size[0]):
             if maze.map[i][j] in ("#","+"):
-                rect = tiles.values()[0].get_rect()
+                rect = list(tiles.values())[0].get_rect()
                 rect.right = i * size
                 rect.top = j * size + offset
                 rects.append(rect)
     return rects
+
+def createPlayerRect():
+    global playerRect
+
+    playerRect = player[0].get_rect()
