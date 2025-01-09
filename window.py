@@ -13,13 +13,42 @@ def init(w, h, o):
     screen = pygame.display.set_mode((width, height))
     clock = pygame.time.Clock()
 
+    loadFixedTextures()
     loadTimer()
+    loadButtons()
 
 def loadTimer():
     global timerFont, timerPos
 
     timerFont = pygame.font.Font("freesansbold.ttf",48)
     timerPos = (width / 2, 50)
+
+def loadButtons():
+    global diffFont, easyPos, mediumPos, hardPos, easyButtonRect, mediumButtonRect, hardButtonRect, easyText, mediumText, hardText, easyTextRect, mediumTextRect, hardTextRect
+
+    diffFont = pygame.font.Font("freesansbold.ttf",26)
+
+    easyPos = (100,50)
+    mediumPos = (240,50)
+    hardPos = (380,50)
+
+    easyButtonRect = button.get_rect()
+    mediumButtonRect = button.get_rect()
+    hardButtonRect = button.get_rect()
+    easyButtonRect.center = easyPos
+    mediumButtonRect.center = mediumPos
+    hardButtonRect.center = hardPos
+
+    easyText = diffFont.render("Easy",True,"black")
+    mediumText = diffFont.render("Medium",True,"black")
+    hardText = diffFont.render("Hard",True,"black")
+
+    easyTextRect = easyText.get_rect()
+    mediumTextRect = mediumText.get_rect()
+    hardTextRect = hardText.get_rect()
+    easyTextRect.center = easyPos
+    mediumTextRect.center = mediumPos
+    hardTextRect.center = hardPos
 
 def drawTimer(timer):
     global timerText, timerRect
@@ -31,8 +60,18 @@ def drawTimer(timer):
 
     screen.blit(timerText, timerRect)
 
+def drawButtons():
+    screen.blit(button, easyButtonRect)
+    screen.blit(button, mediumButtonRect)
+    screen.blit(button, hardButtonRect)
+
+    screen.blit(easyText, easyTextRect)
+    screen.blit(mediumText, mediumTextRect)
+    screen.blit(hardText, hardTextRect)
+
 def drawGUI(timer):
     drawTimer(timer)
+    drawButtons()
 
 backgroundColor = (203,208,209)
 
@@ -50,7 +89,7 @@ def drawPlayer(pos, dir):
     screen.blit(player[dir], playerRect)
 
 def loadTextures(size):
-    global tiles, player
+    global tiles, player, button
 
     tiles = {
         "#":pygame.transform.scale(pygame.image.load("textures/wall.png"), (size,size)),
@@ -64,6 +103,11 @@ def loadTextures(size):
         pygame.transform.scale(pygame.image.load("textures/player_down.png"), (size * 4 / 5, size * 4 / 5)),
         pygame.transform.scale(pygame.image.load("textures/player_left.png"), (size * 4 / 5, size * 4 / 5))
     ]
+
+def loadFixedTextures():
+    global button
+
+    button = pygame.image.load("textures/button.png")
 
 def generateRects(maze, size):
     rects = []
