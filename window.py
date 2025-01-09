@@ -28,9 +28,9 @@ def loadButtons():
 
     diffFont = pygame.font.Font("freesansbold.ttf",26)
 
-    easyPos = (100,50)
-    mediumPos = (240,50)
-    hardPos = (380,50)
+    easyPos = (80,50)
+    mediumPos = (220,50)
+    hardPos = (360,50)
 
     easyButtonRect = button.get_rect()
     mediumButtonRect = button.get_rect()

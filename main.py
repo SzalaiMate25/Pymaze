@@ -50,6 +50,18 @@ while True:
             if event.key == pygame.K_r:
                 start(difficulty)
 
+    mousePos = pygame.mouse.get_pos()
+
+    if pygame.mouse.get_pressed()[0] and not preivousPressed:
+        if window.easyButtonRect.collidepoint(mousePos):
+            start(0)
+        if window.mediumButtonRect.collidepoint(mousePos):
+            start(1)
+        if window.hardButtonRect.collidepoint(mousePos):
+            start(2)
+
+    preivousPressed = pygame.mouse.get_pressed()[0]
+
     colliderPos = copy(playerPos)
     window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
 
