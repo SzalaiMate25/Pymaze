@@ -1,5 +1,5 @@
 import timer
-import highscoreManager as hs
+import highscoreManager
 import window
 import pygame
 import functions
@@ -9,7 +9,7 @@ from copy import deepcopy as copy
 pygame.init()
 window.init(1080, 892, 100) # The actual size of the maze will be 1080x892, as the top 100 pixels will be taken up by the UI
 
-difficulty = 1
+difficulty = 0
 
 sizes = ( # ((size_x, size_y), tileSize)
     ((15, 11), 72), # 0 - easy
@@ -28,6 +28,11 @@ maze = functions.generate(functions.createEmpty(sizes[difficulty][0]))
 
 rects = window.generateRects(maze, sizes[difficulty][1])
 direction = 1
+
+highscores = highscoreManager.HighscoreManager("",1,3)
+timer = timer.Timer()
+
+timer.startTimer()
 
 while True:
 
@@ -87,7 +92,9 @@ while True:
             playerPos[0] -= speed / (keys[pygame.K_LSHIFT] + 1)
 
     if window.playerRect.colliderect(window.finishRect):
-        print("Yippee!!")
+        print(f"Congratulations! You completed a{("n easy","n intermediate"," hard")[difficulty]} maze! Your time was {timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1)} {("seconds","","")[difficulty]}!")
+        if highscores.addHighscore(timer.getTimer(),difficulty):
+            print("New best time!")
         exit()
 
     window.drawMaze(maze, sizes[difficulty][1])

@@ -33,13 +33,13 @@ class Timer:
         if format == 0:
             return (days, hours, minutes, seconds)
         
-        if len(hours) == 1:
+        if len(str(hours)) == 1:
             hours = "0" + str(hours)
 
-        if len(minutes) == 1:
+        if len(str(minutes)) == 1:
             minutes = "0" + str(minutes)
 
-        if len(seconds) == 1:
+        if len(str(seconds)) == 1:
             seconds = "0" + str(seconds)
 
         if specificity == 1:
