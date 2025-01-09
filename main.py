@@ -9,8 +9,6 @@ from copy import deepcopy as copy
 pygame.init()
 window.init(1080, 892, 100) # The actual size of the maze will be 1080x892, as the top 100 pixels will be taken up by the UI
 
-difficulty = 1
-
 sizes = ( # ((size_x, size_y), tileSize)
     ((15, 11), 72), # 0 - easy
     ((45, 33), 24), # 1 - medium
@@ -19,26 +17,39 @@ sizes = ( # ((size_x, size_y), tileSize)
 
 speeds = (9,3,1)
 
-playerPos = [sizes[difficulty][1] * 2.5, sizes[difficulty][1] * 2.5]
-speed = speeds[difficulty]
-
-window.loadTextures(sizes[difficulty][1])
-window.createSingleRects()
-maze = functions.generate(functions.createEmpty(sizes[difficulty][0]))
-
-rects = window.generateRects(maze, sizes[difficulty][1])
-direction = 1
-
 highscores = highscoreManager.HighscoreManager("",1,3)
 timer = timer.Timer()
 
 timer.startTimer()
+
+def start(d):
+    global difficulty, playerPos, speed, maze, rects, direction, timer
+
+    difficulty = d
+
+    playerPos = [sizes[difficulty][1] * 2.5, sizes[difficulty][1] * 2.5]
+    speed = speeds[difficulty]
+
+    window.loadTextures(sizes[difficulty][1])
+    window.createSingleRects()
+    maze = functions.generate(functions.createEmpty(sizes[difficulty][0]))
+
+    rects = window.generateRects(maze, sizes[difficulty][1])
+    direction = 1
+
+    timer.startTimer()
+
+start(1)
 
 while True:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r:
+                start(difficulty)
+
     colliderPos = copy(playerPos)
     window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
 
