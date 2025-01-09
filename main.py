@@ -106,7 +106,7 @@ while True:
         print(f"Congratulations! You completed a{("n easy","n intermediate"," hard")[difficulty]} maze! Your time was {timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1)} {("seconds","","")[difficulty]}!")
         if highscores.addHighscore(timer.getTimer(),difficulty):
             print("New best time!")
-        exit()
+        start(difficulty)
 
     window.drawMaze(maze, sizes[difficulty][1])
     window.drawPlayer(playerPos, direction)
