@@ -7,7 +7,7 @@ from sys import exit
 from copy import deepcopy as copy
 
 pygame.init()
-window.init(1080, 892, 100) # The actual size of the maze will be 1080x892, as the top 100 pixels will be taken up by the UI
+window.init(1080, 892, 100) # The actual size of the maze will be 1080x792, as the top 100 pixels will be taken up by the GUI
 
 sizes = ( # ((size_x, size_y), tileSize)
     ((15, 11), 72), # 0 - easy
