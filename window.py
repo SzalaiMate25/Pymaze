@@ -26,13 +26,14 @@ def loadTimer():
     timerPos = (width / 2, 50)
 
 def loadButtons():
-    global diffFont, easyPos, mediumPos, hardPos, easyButtonRect, mediumButtonRect, hardButtonRect, easyText, mediumText, hardText, easyTextRect, mediumTextRect, hardTextRect
+    global diffFont, easyPos, mediumPos, hardPos, easyButtonRect, mediumButtonRect, hardButtonRect, easyText, mediumText, hardText, easyTextRect, mediumTextRect, hardTextRect, exitRect
 
     diffFont = pygame.font.Font("freesansbold.ttf",26)
 
     easyPos = (80,50)
     mediumPos = (220,50)
     hardPos = (360,50)
+    exitPos = (width - 50, 50)
 
     easyButtonRect = button.get_rect()
     mediumButtonRect = button.get_rect()
@@ -52,6 +53,9 @@ def loadButtons():
     mediumTextRect.center = mediumPos
     hardTextRect.center = hardPos
 
+    exitRect = close.get_rect()
+    exitRect.center = exitPos
+
 def drawTimer(timer):
     global timerText, timerRect
 
@@ -70,6 +74,8 @@ def drawButtons():
     screen.blit(easyText, easyTextRect)
     screen.blit(mediumText, mediumTextRect)
     screen.blit(hardText, hardTextRect)
+
+    screen.blit(close, exitRect)
 
 def drawGUI(timer):
     drawTimer(timer)
@@ -200,7 +206,7 @@ def loadWindowButtons():
     quitTextRect = quitText.get_rect()
     quitTextRect.center = quitPos
 
-def drawWindow(difficulty, time, bestTime, newBest):
+def drawWindow(difficulty, time, bestTime):
 
     difficultyText = valueFont.render(("Easy","Medium","Hard")[difficulty],True,"black")
     difficultyRect = difficultyText.get_rect()

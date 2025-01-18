@@ -62,6 +62,8 @@ while True:
             start(1)
         if window.hardButtonRect.collidepoint(mousePos):
             start(2)
+        if window.exitRect.collidepoint(mousePos):
+            exit()
 
     preivousPressed = pygame.mouse.get_pressed()[0]
 
@@ -120,10 +122,8 @@ while True:
 
         if window.playerRect.colliderect(window.finishRect):
             print(f"Congratulations! You completed a{("n easy","n intermediate"," hard")[difficulty]} maze! Your time was {timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1)} {("seconds","","")[difficulty]}!")
-            
-            newBest = highscores.addHighscore(timer.getTimer(),difficulty)
 
-            if newBest:
+            if highscores.addHighscore(timer.getTimer(),difficulty):
                 print("New best time!")
             runTime = timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1)
             run = False
@@ -133,7 +133,7 @@ while True:
     window.drawPlayer(playerPos, direction)
     window.drawGUI(timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1) if run else runTime)
     if windowOpen:
-        window.drawWindow(difficulty, runTime, timer.convertTime(highscores.getBestScore(difficulty),1,specificity=difficulty + 1), newBest)
+        window.drawWindow(difficulty, runTime, timer.convertTime(highscores.getBestScore(difficulty),1,specificity=difficulty + 1))
 
         mousePos = pygame.mouse.get_pos()
 
