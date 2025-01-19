@@ -18,6 +18,8 @@ def init(w, h, o):
     loadButtons()
     loadWindow()
     loadWindowButtons()
+    loadTitleScreenTextures()
+    loadTitleScreen()
 
 def loadTimer():
     global timerFont, timerPos
@@ -240,3 +242,43 @@ def drawWindow(difficulty, time, bestTime):
 
     screen.blit(buttonLarge, quitRect)
     screen.blit(quitText, quitTextRect)
+
+def loadTitleScreenTextures():
+    global startButton, startButtonHover, startButtonClicked, title
+
+    startButton = pygame.transform.scale_by(pygame.image.load("textures/title_screen/start_button_inactive.png"), 5)
+    startButtonHover = pygame.transform.scale_by(pygame.image.load("textures/title_screen/start_button_hover.png"), 5.2)
+    startButtonClicked = pygame.transform.scale_by(pygame.image.load("textures/title_screen/start_button_clicked.png"), 5.2)
+
+    title = pygame.transform.scale_by(pygame.image.load("textures/title_screen/main_title.png"), 8)
+
+def loadTitleScreen():
+    global startButtonRect, startButtonHoverRect, startButtonClickedRect, titleRect
+
+    startButtonPos = (width / 2, height / 2)
+    startButtonClickedPos = (width / 2, height / 2 + 5.2)
+    titlePos = (width / 2, 175)
+
+    startButtonRect = startButton.get_rect()
+    startButtonRect.center = startButtonPos
+
+    startButtonHoverRect = startButtonHover.get_rect()
+    startButtonHoverRect.center = startButtonPos
+
+    startButtonClickedRect = startButtonClicked.get_rect()
+    startButtonClickedRect.center = startButtonClickedPos
+
+    titleRect = title.get_rect()
+    titleRect.center = titlePos
+
+def drawTitleScreen(startHover, startClick):
+    screen.fill(backgroundColor)
+
+    screen.blit(title, titleRect)
+
+    if startClick:
+        screen.blit(startButtonClicked, startButtonClickedRect)
+    elif startHover:
+        screen.blit(startButtonHover, startButtonHoverRect)
+    else:
+        screen.blit(startButton, startButtonRect)

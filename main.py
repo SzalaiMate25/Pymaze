@@ -17,13 +17,17 @@ sizes = ( # ((size_x, size_y), tileSize)
 
 speeds = (9,3,1)
 
+buttonTimer = timer.Timer()
+
 highscores = highscoreManager.HighscoreManager("",1,3)
 timer = timer.Timer()
 
-timer.startTimer()
+titleScreen = True
+previousPressed = False
+started = False
 
 def start(d):
-    global difficulty, playerPos, speed, maze, rects, direction, timer, run, windowOpen
+    global difficulty, playerPos, speed, maze, rects, direction, timer, run, windowOpen, titleScreen, started
 
     difficulty = d
 
@@ -39,13 +43,12 @@ def start(d):
 
     run = True
     windowOpen = False
+    titleScreen = False
+    started = False
 
     timer.startTimer()
 
-start(0)
-
 while True:
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
@@ -55,97 +58,109 @@ while True:
 
     mousePos = pygame.mouse.get_pos()
 
-    if pygame.mouse.get_pressed()[0] and not preivousPressed:
-        if window.easyButtonRect.collidepoint(mousePos):
-            start(0)
-        if window.mediumButtonRect.collidepoint(mousePos):
+    if titleScreen:
+        if started and buttonTimer.getTimer() > 0.5:
             start(1)
-        if window.hardButtonRect.collidepoint(mousePos):
-            start(2)
-        if window.exitRect.collidepoint(mousePos):
-            exit()
 
-    preivousPressed = pygame.mouse.get_pressed()[0]
+        if pygame.mouse.get_pressed()[0] and not previousPressed:
+            if window.startButtonRect.collidepoint(mousePos):
+                started = True
+                buttonTimer.startTimer()
 
-    if run:
-        colliderPos = copy(playerPos)
-        window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
+        window.drawTitleScreen(window.startButtonRect.collidepoint(mousePos), started)
 
-        if window.playerCollider.collidelist(rects) == -1:
-            resetPos = copy(playerPos)
-
-        keys = pygame.key.get_pressed()
-
-        if keys[pygame.K_UP]:
-            direction = 0
-            colliderPos[1] -= speed / (keys[pygame.K_LSHIFT] + 1)
-            window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
-
-            if window.playerCollider.collidelist(rects) != -1:
-                colliderPos = copy(resetPos)
-                window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
-            else:
-                playerPos[1] -= speed / (keys[pygame.K_LSHIFT] + 1)
-
-        if keys[pygame.K_RIGHT]:
-            direction = 1
-            colliderPos[0] += speed / (keys[pygame.K_LSHIFT] + 1)
-            window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
-
-            if window.playerCollider.collidelist(rects) != -1:
-                colliderPos = copy(resetPos)
-                window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
-            else:
-                playerPos[0] += speed / (keys[pygame.K_LSHIFT] + 1)
-
-        if keys[pygame.K_DOWN]:
-            direction = 2
-            colliderPos[1] += speed / (keys[pygame.K_LSHIFT] + 1)
-            window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
-
-            if window.playerCollider.collidelist(rects) != -1:
-                colliderPos = copy(resetPos)
-                window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
-            else:
-                playerPos[1] += speed / (keys[pygame.K_LSHIFT] + 1)
-
-        if keys[pygame.K_LEFT]:
-            direction = 3
-            colliderPos[0] -= speed / (keys[pygame.K_LSHIFT] + 1)
-            window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset) 
-
-            if window.playerCollider.collidelist(rects) != -1:
-                colliderPos = copy(resetPos)
-                window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
-            else:
-                playerPos[0] -= speed / (keys[pygame.K_LSHIFT] + 1)
-
-        if window.playerRect.colliderect(window.finishRect):
-            print(f"Congratulations! You completed a{("n easy","n intermediate"," hard")[difficulty]} maze! Your time was {timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1)} {("seconds","","")[difficulty]}!")
-
-            if highscores.addHighscore(timer.getTimer(),difficulty):
-                print("New best time!")
-            runTime = timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1)
-            run = False
-            windowOpen = True
-
-    window.drawMaze(maze, sizes[difficulty][1])
-    window.drawPlayer(playerPos, direction)
-    window.drawGUI(timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1) if run else runTime)
-    if windowOpen:
-        window.drawWindow(difficulty, runTime, timer.convertTime(highscores.getBestScore(difficulty),1,specificity=difficulty + 1))
-
-        mousePos = pygame.mouse.get_pos()
-
-        if pygame.mouse.get_pressed()[0]:
-            if window.closeRect.collidepoint(mousePos):
-                windowOpen = False
-
-            if window.playAgainRect.collidepoint(mousePos):
-                start(difficulty)
-
-            if window.quitRect.collidepoint(mousePos):
+    else:
+        if pygame.mouse.get_pressed()[0] and not previousPressed:
+            if window.easyButtonRect.collidepoint(mousePos):
+                start(0)
+            if window.mediumButtonRect.collidepoint(mousePos):
+                start(1)
+            if window.hardButtonRect.collidepoint(mousePos):
+                start(2)
+            if window.exitRect.collidepoint(mousePos):
                 exit()
+
+        previousPressed = pygame.mouse.get_pressed()[0]
+
+        if run:
+            colliderPos = copy(playerPos)
+            window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
+
+            if window.playerCollider.collidelist(rects) == -1:
+                resetPos = copy(playerPos)
+
+            keys = pygame.key.get_pressed()
+
+            if keys[pygame.K_UP]:
+                direction = 0
+                colliderPos[1] -= speed / (keys[pygame.K_LSHIFT] + 1)
+                window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
+
+                if window.playerCollider.collidelist(rects) != -1:
+                    colliderPos = copy(resetPos)
+                    window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
+                else:
+                    playerPos[1] -= speed / (keys[pygame.K_LSHIFT] + 1)
+
+            if keys[pygame.K_RIGHT]:
+                direction = 1
+                colliderPos[0] += speed / (keys[pygame.K_LSHIFT] + 1)
+                window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
+
+                if window.playerCollider.collidelist(rects) != -1:
+                    colliderPos = copy(resetPos)
+                    window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
+                else:
+                    playerPos[0] += speed / (keys[pygame.K_LSHIFT] + 1)
+
+            if keys[pygame.K_DOWN]:
+                direction = 2
+                colliderPos[1] += speed / (keys[pygame.K_LSHIFT] + 1)
+                window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
+
+                if window.playerCollider.collidelist(rects) != -1:
+                    colliderPos = copy(resetPos)
+                    window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
+                else:
+                    playerPos[1] += speed / (keys[pygame.K_LSHIFT] + 1)
+
+            if keys[pygame.K_LEFT]:
+                direction = 3
+                colliderPos[0] -= speed / (keys[pygame.K_LSHIFT] + 1)
+                window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset) 
+
+                if window.playerCollider.collidelist(rects) != -1:
+                    colliderPos = copy(resetPos)
+                    window.playerCollider.center = (colliderPos[0], colliderPos[1] + window.offset)
+                else:
+                    playerPos[0] -= speed / (keys[pygame.K_LSHIFT] + 1)
+
+            if window.playerRect.colliderect(window.finishRect):
+                print(f"Congratulations! You completed a{("n easy","n intermediate"," hard")[difficulty]} maze! Your time was {timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1)} {("seconds","","")[difficulty]}!")
+
+                if highscores.addHighscore(timer.getTimer(),difficulty):
+                    print("New best time!")
+                runTime = timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1)
+                run = False
+                windowOpen = True
+
+        window.drawMaze(maze, sizes[difficulty][1])
+        window.drawPlayer(playerPos, direction)
+        window.drawGUI(timer.convertTime(timer.getTimer(),1,specificity=difficulty + 1) if run else runTime)
+        if windowOpen:
+            window.drawWindow(difficulty, runTime, timer.convertTime(highscores.getBestScore(difficulty),1,specificity=difficulty + 1))
+
+            mousePos = pygame.mouse.get_pos()
+
+            if pygame.mouse.get_pressed()[0]:
+                if window.closeRect.collidepoint(mousePos):
+                    windowOpen = False
+
+                if window.playAgainRect.collidepoint(mousePos):
+                    start(difficulty)
+
+                if window.quitRect.collidepoint(mousePos):
+                    exit()
 
     pygame.display.flip()
     window.clock.tick(60)
