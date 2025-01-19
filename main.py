@@ -18,6 +18,7 @@ sizes = ( # ((size_x, size_y), tileSize)
 speeds = (9,3,1)
 
 buttonTimer = timer.Timer()
+buttonWait = 0.09
 
 highscores = highscoreManager.HighscoreManager("",1,3)
 timer = timer.Timer()
@@ -59,7 +60,7 @@ while True:
     mousePos = pygame.mouse.get_pos()
 
     if titleScreen:
-        if started and buttonTimer.getTimer() > 0.5:
+        if started and buttonTimer.getTimer() > buttonWait:
             start(1)
 
         if pygame.mouse.get_pressed()[0] and not previousPressed:
