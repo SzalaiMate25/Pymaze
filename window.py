@@ -244,11 +244,15 @@ def drawWindow(difficulty, time, bestTime):
     screen.blit(quitText, quitTextRect)
 
 def loadTitleScreenTextures():
-    global startButton, startButtonHover, startButtonClicked, title
+    global startButton, startButtonHover, startButtonClicked, settingsButton, settingsButtonHover, settingsButtonClicked, title
 
     startButton = pygame.transform.scale_by(pygame.image.load("textures/title_screen/start_button_inactive.png"), 5)
     startButtonHover = pygame.transform.scale_by(pygame.image.load("textures/title_screen/start_button_hover.png"), 5.2)
     startButtonClicked = pygame.transform.scale_by(pygame.image.load("textures/title_screen/start_button_clicked.png"), 5.2)
+
+    settingsButton = pygame.transform.scale_by(pygame.image.load("textures/title_screen/settings_button_inactive.png"), 5)
+    settingsButtonHover = pygame.transform.scale_by(pygame.image.load("textures/title_screen/settings_button_hover.png"), 5.2)
+    settingsButtonClicked = pygame.transform.scale_by(pygame.image.load("textures/title_screen/settings_button_clicked.png"), 5.2)
 
     title = pygame.transform.scale_by(pygame.image.load("textures/title_screen/main_title.png"), 8)
 
