@@ -1,10 +1,11 @@
 import pygame
 
-def init(w, h, o):
-    global width, height, screen, clock, offset
+def init(w, h, o, b):
+    global width, height, screen, clock, offset, buttonOffsets
     width = w
     height = h
     offset = o
+    buttonOffsets = b # (x, y)
 
     pygame.init()
 
@@ -244,7 +245,9 @@ def drawWindow(difficulty, time, bestTime):
     screen.blit(quitText, quitTextRect)
 
 def loadTitleScreenTextures():
-    global startButton, startButtonHover, startButtonClicked, settingsButton, settingsButtonHover, settingsButtonClicked, title
+    global startButton, startButtonHover, startButtonClicked
+    global settingsButton, settingsButtonHover, settingsButtonClicked
+    global title
 
     startButton = pygame.transform.scale_by(pygame.image.load("textures/title_screen/start_button_inactive.png"), 5)
     startButtonHover = pygame.transform.scale_by(pygame.image.load("textures/title_screen/start_button_hover.png"), 5.2)
@@ -257,11 +260,13 @@ def loadTitleScreenTextures():
     title = pygame.transform.scale_by(pygame.image.load("textures/title_screen/main_title.png"), 8)
 
 def loadTitleScreen():
-    global startButtonRect, startButtonHoverRect, startButtonClickedRect, titleRect
+    global startButtonRect, startButtonHoverRect, startButtonClickedRect
+    global settingsButtonRect, settingsButtonHoverRect, settingsButtonClickedRect
+    global titleRect
 
-    startButtonPos = (width / 2, height / 2)
-    startButtonClickedPos = (width / 2, height / 2 + 5.2)
-    titlePos = (width / 2, 175)
+    # Start Button
+    startButtonPos = (width / 2, height / 2 + buttonOffsets[1])
+    startButtonClickedPos = (width / 2, height / 2 + 5.2 + buttonOffsets[1])
 
     startButtonRect = startButton.get_rect()
     startButtonRect.center = startButtonPos
@@ -272,17 +277,41 @@ def loadTitleScreen():
     startButtonClickedRect = startButtonClicked.get_rect()
     startButtonClickedRect.center = startButtonClickedPos
 
+    # Settings Button
+    settingsButtonPos = (width / 2 + buttonOffsets[0], height / 2 + buttonOffsets[1])
+    settingsButtonClickedPos = (width / 2 + buttonOffsets[0], height / 2 + 5.2 + buttonOffsets[1])
+
+    settingsButtonRect = settingsButton.get_rect()
+    settingsButtonRect.center = settingsButtonPos
+
+    settingsButtonHoverRect = settingsButtonHover.get_rect()
+    settingsButtonHoverRect.center = settingsButtonPos
+
+    settingsButtonClickedRect = settingsButtonClicked.get_rect()
+    settingsButtonClickedRect.center = settingsButtonClickedPos
+
+    # Title
+    titlePos = (width / 2, 175)
     titleRect = title.get_rect()
     titleRect.center = titlePos
 
-def drawTitleScreen(startHover, startClick):
+def drawTitleScreen(start, settings):
     screen.fill(backgroundColor)
 
     screen.blit(title, titleRect)
 
-    if startClick:
+    # start button
+    if start[1]:
         screen.blit(startButtonClicked, startButtonClickedRect)
-    elif startHover:
+    elif start[0]:
         screen.blit(startButtonHover, startButtonHoverRect)
     else:
         screen.blit(startButton, startButtonRect)
+
+    # settings button
+    if settings[1]:
+        screen.blit(settingsButtonClicked, settingsButtonClickedRect)
+    elif settings[0]:
+        screen.blit(settingsButtonHover, settingsButtonHoverRect)
+    else:
+        screen.blit(settingsButton, settingsButtonRect)

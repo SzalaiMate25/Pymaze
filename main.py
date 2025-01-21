@@ -7,7 +7,7 @@ from sys import exit
 from copy import deepcopy as copy
 
 pygame.init()
-window.init(1080, 892, 100) # The actual size of the maze will be 1080x792, as the top 100 pixels will be taken up by the GUI
+window.init(1080, 892, 100, (200, 100)) # The actual size of the maze will be 1080x792, as the top 100 pixels will be taken up by the GUI
 
 sizes = ( # ((size_x, size_y), tileSize)
     ((15, 11), 72), # 0 - easy
@@ -26,9 +26,10 @@ timer = timer.Timer()
 titleScreen = True
 previousPressed = False
 started = False
+settings = False
 
 def start(d):
-    global difficulty, playerPos, speed, maze, rects, direction, timer, run, windowOpen, titleScreen, started
+    global difficulty, playerPos, speed, maze, rects, direction, timer, run, windowOpen, titleScreen, started, settings
 
     difficulty = d
 
@@ -46,6 +47,7 @@ def start(d):
     windowOpen = False
     titleScreen = False
     started = False
+    settings = False
 
     timer.startTimer()
 
@@ -63,12 +65,22 @@ while True:
         if started and buttonTimer.getTimer() > buttonWait:
             start(1)
 
+        if settings and buttonTimer.getTimer() > buttonWait:
+            settings = False # Later draw the settings window
+
         if pygame.mouse.get_pressed()[0] and not previousPressed:
             if window.startButtonRect.collidepoint(mousePos):
                 started = True
                 buttonTimer.startTimer()
+            
+            if window.settingsButtonRect.collidepoint(mousePos):
+                settings = True
+                buttonTimer.startTimer()
 
-        window.drawTitleScreen(window.startButtonRect.collidepoint(mousePos), started)
+        window.drawTitleScreen(
+            (window.startButtonRect.collidepoint(mousePos), started), # Start button
+            (window.settingsButtonRect.collidepoint(mousePos), settings) # Settings Button
+            )
 
     else:
         if pygame.mouse.get_pressed()[0] and not previousPressed:
