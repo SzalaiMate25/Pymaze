@@ -18,7 +18,7 @@ sizes = ( # ((size_x, size_y), tileSize)
 speeds = (9,3,1)
 
 buttonTimer = timer.Timer()
-buttonWait = 0.09
+buttonWait = 0.05
 
 highscores = highscoreManager.HighscoreManager("",1,3)
 timer = timer.Timer()
@@ -27,6 +27,7 @@ titleScreen = True
 previousPressed = False
 started = False
 settings = False
+quit = False
 
 def start(d):
     global difficulty, playerPos, speed, maze, rects, direction, timer, run, windowOpen, titleScreen, started, settings
@@ -68,6 +69,9 @@ while True:
         if settings and buttonTimer.getTimer() > buttonWait:
             settings = False # Later draw the settings window
 
+        if quit and buttonTimer.getTimer() > buttonWait:
+            exit()
+
         if pygame.mouse.get_pressed()[0] and not previousPressed:
             if window.startButtonRect.collidepoint(mousePos):
                 started = True
@@ -77,9 +81,14 @@ while True:
                 settings = True
                 buttonTimer.startTimer()
 
+            if window.titleQuitButtonRect.collidepoint(mousePos):
+                quit = True
+                buttonTimer.startTimer()
+
         window.drawTitleScreen(
             (window.startButtonRect.collidepoint(mousePos), started), # Start button
-            (window.settingsButtonRect.collidepoint(mousePos), settings) # Settings Button
+            (window.settingsButtonRect.collidepoint(mousePos), settings), # Settings Button
+            (window.titleQuitButtonRect.collidepoint(mousePos), quit), # Quit Button
             )
 
     else:
