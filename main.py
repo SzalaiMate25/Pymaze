@@ -63,33 +63,34 @@ while True:
     mousePos = pygame.mouse.get_pos()
 
     if titleScreen:
-        if started and buttonTimer.getTimer() > buttonWait:
-            start(1)
-
-        if settings and buttonTimer.getTimer() > buttonWait:
-            settings = False # Later draw the settings window
-
-        if quit and buttonTimer.getTimer() > buttonWait:
-            exit()
-
-        if pygame.mouse.get_pressed()[0] and not previousPressed:
-            if window.startButtonRect.collidepoint(mousePos):
-                started = True
-                buttonTimer.startTimer()
-            
-            if window.settingsButtonRect.collidepoint(mousePos):
-                settings = True
-                buttonTimer.startTimer()
-
-            if window.titleQuitButtonRect.collidepoint(mousePos):
-                quit = True
-                buttonTimer.startTimer()
-
         window.drawTitleScreen(
             (window.startButtonRect.collidepoint(mousePos), started), # Start button
             (window.settingsButtonRect.collidepoint(mousePos), settings), # Settings Button
             (window.titleQuitButtonRect.collidepoint(mousePos), quit), # Quit Button
             )
+        
+        if started and buttonTimer.getTimer() > buttonWait:
+            start(1)
+
+        if settings and buttonTimer.getTimer() > buttonWait:
+            window.drawSettings()
+
+        else:
+            if pygame.mouse.get_pressed()[0] and not previousPressed:
+                if window.startButtonRect.collidepoint(mousePos):
+                    started = True
+                    buttonTimer.startTimer()
+                
+                if window.settingsButtonRect.collidepoint(mousePos):
+                    settings = True
+                    buttonTimer.startTimer()
+
+                if window.titleQuitButtonRect.collidepoint(mousePos):
+                    quit = True
+                    buttonTimer.startTimer()
+
+        if quit and buttonTimer.getTimer() > buttonWait:
+            exit()
 
     else:
         if pygame.mouse.get_pressed()[0] and not previousPressed:

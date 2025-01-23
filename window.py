@@ -21,6 +21,8 @@ def init(w, h, o, b):
     loadWindowButtons()
     loadTitleScreenTextures()
     loadTitleScreen()
+    loadSettingsTextures()
+    loadSettingsMenu()
 
 def loadTimer():
     global timerFont, timerPos
@@ -342,3 +344,24 @@ def drawTitleScreen(start, settings, quit):
         screen.blit(titleQuitButtonHover, titleQuitButtonHoverRect)
     else:
         screen.blit(titleQuitButton, titleQuitButtonRect)
+
+def loadSettingsTextures():
+    global settingsWindow, settingsTitle
+
+    settingsWindow = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_window.png"), 2)
+    settingsTitle = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_title.png"), 5)
+
+def loadSettingsMenu():
+    global settingsWindowRect, settingsTitleRect
+
+    settingsWindowPos = (width / 2, height / 2)
+    settingsWindowRect = settingsWindow.get_rect()
+    settingsWindowRect.center = settingsWindowPos
+    
+    settingsTitlePos = (width / 2, settingsWindowRect.top + 100)
+    settingsTitleRect = settingsTitle.get_rect()
+    settingsTitleRect.center = settingsTitlePos
+
+def drawSettings():
+    screen.blit(settingsWindow, settingsWindowRect)
+    screen.blit(settingsTitle, settingsTitleRect)
