@@ -347,21 +347,49 @@ def drawTitleScreen(start, settings, quit):
 
 def loadSettingsTextures():
     global settingsWindow, settingsTitle
+    global settingsQuit, settingsQuitHover, settingsQuitClicked
 
     settingsWindow = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_window.png"), 2)
-    settingsTitle = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_title.png"), 5)
+    settingsTitle = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_title.png"), 3)
+
+    # Quit button
+    settingsQuit = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_inactive.png"), 3)
+    settingsQuitHover = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_hover.png"), 3)
+    settingsQuitClicked = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_clicked.png"), 3)
 
 def loadSettingsMenu():
     global settingsWindowRect, settingsTitleRect
+    global settingsQuitRect, settingsQuitHoverRect, settingsQuitClickedRect
 
     settingsWindowPos = (width / 2, height / 2)
     settingsWindowRect = settingsWindow.get_rect()
     settingsWindowRect.center = settingsWindowPos
     
-    settingsTitlePos = (width / 2, settingsWindowRect.top + 100)
+    settingsTitlePos = (width / 2, settingsWindowRect.top + 85)
     settingsTitleRect = settingsTitle.get_rect()
     settingsTitleRect.center = settingsTitlePos
 
-def drawSettings():
+    settingsQuitPos = (settingsWindowRect.right, settingsWindowRect.top)
+    settingsQuitClickedPos = (settingsWindowRect.right, settingsWindowRect.top + 3)
+
+    settingsQuitRect = settingsQuit.get_rect()
+    settingsQuitRect.center = settingsQuitPos
+
+    settingsQuitHoverRect = settingsQuitHover.get_rect()
+    settingsQuitHoverRect.center = settingsQuitPos
+
+    settingsQuitClickedRect = settingsQuitClicked.get_rect()
+    settingsQuitClickedRect.center = settingsQuitClickedPos
+
+
+def drawSettings(quit):
     screen.blit(settingsWindow, settingsWindowRect)
     screen.blit(settingsTitle, settingsTitleRect)
+
+    # Quit button
+    if quit[1]:
+        screen.blit(settingsQuitClicked, settingsQuitClickedRect)
+    elif quit[0]:
+        screen.blit(settingsQuitHover, settingsQuitHoverRect)
+    else:
+        screen.blit(settingsQuit, settingsQuitRect)
