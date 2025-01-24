@@ -253,13 +253,8 @@ def drawWindow(difficulty, time, bestTime):
     screen.blit(quitText, quitTextRect)
 
 def loadTitleScreenTextures():
-    global settingsButton, settingsButtonHover, settingsButtonClicked
     global titleQuitButton, titleQuitButtonHover, titleQuitButtonClicked
     global title
-
-    settingsButton = pygame.transform.scale_by(pygame.image.load("textures/title_screen/settings_button_inactive.png"), 5)
-    settingsButtonHover = pygame.transform.scale_by(pygame.image.load("textures/title_screen/settings_button_hover.png"), 5.2)
-    settingsButtonClicked = pygame.transform.scale_by(pygame.image.load("textures/title_screen/settings_button_clicked.png"), 5.2)
 
     titleQuitButton = pygame.transform.scale_by(pygame.image.load("textures/title_screen/quit_button_inactive.png"), 5)
     titleQuitButtonHover = pygame.transform.scale_by(pygame.image.load("textures/title_screen/quit_button_hover.png"), 5.2)
@@ -268,8 +263,7 @@ def loadTitleScreenTextures():
     title = pygame.transform.scale_by(pygame.image.load("textures/title_screen/main_title.png"), 8)
 
 def loadTitleScreen():
-    global startButton, settingsButton
-    global titleQuitButtonRect, titleQuitButtonHoverRect, titleQuitButtonClickedRect
+    global startButton, settingsButton, titleQuitButton
     global titleRect, buttons
 
     # Start Button
@@ -282,41 +276,27 @@ def loadTitleScreen():
 
     # Quit Button
     titleQuitButtonPos = (width / 2 - buttonOffsets[0], height / 2 + buttonOffsets[1])
-    titleQuitButtonClickedPos = (width / 2 - buttonOffsets[0], height / 2 + 5.2 + buttonOffsets[1])
-
-    titleQuitButtonRect = titleQuitButton.get_rect()
-    titleQuitButtonRect.center = titleQuitButtonPos
-
-    titleQuitButtonHoverRect = titleQuitButtonHover.get_rect()
-    titleQuitButtonHoverRect.center = titleQuitButtonPos
-
-    titleQuitButtonClickedRect = titleQuitButtonClicked.get_rect()
-    titleQuitButtonClickedRect.center = titleQuitButtonClickedPos
+    titleQuitButton = button.Button("quit_button", titleQuitButtonPos, path=titleScreenPath, scales=(5,5.2,5.2), offsets=((0,0), (0,0), (0,5.2)))
 
     buttons = []
     buttons.append(startButton)
     buttons.append(settingsButton)
+    buttons.append(titleQuitButton)
 
     # Title
     titlePos = (width / 2, 175)
     titleRect = title.get_rect()
     titleRect.center = titlePos
 
-def drawTitleScreen(quit):
+def drawTitleScreen():
     screen.fill(backgroundColor)
 
     screen.blit(title, titleRect)
 
     screen.blit(startButton.get_active_texture(), startButton.get_active_rect())
     screen.blit(settingsButton.get_active_texture(), settingsButton.get_active_rect())
+    screen.blit(titleQuitButton.get_active_texture(), titleQuitButton.get_active_rect())
 
-    # Quit button
-    if quit[1]:
-        screen.blit(titleQuitButtonClicked, titleQuitButtonClickedRect)
-    elif quit[0]:
-        screen.blit(titleQuitButtonHover, titleQuitButtonHoverRect)
-    else:
-        screen.blit(titleQuitButton, titleQuitButtonRect)
 
 def updateButtons():
     for button in buttons:

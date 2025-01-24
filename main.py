@@ -26,9 +26,7 @@ timer = timer.Timer()
 
 titleScreen = True
 previousPressed = False
-started = False
 settings = False
-quit = False
 settingsQuit = False
 
 sound = True
@@ -36,7 +34,7 @@ music = True
 jumpscare = False
 
 def start(d):
-    global difficulty, playerPos, speed, maze, rects, direction, timer, run, windowOpen, titleScreen, started, settings
+    global difficulty, playerPos, speed, maze, rects, direction, timer, run, windowOpen, titleScreen, settings
 
     difficulty = d
 
@@ -53,7 +51,6 @@ def start(d):
     run = True
     windowOpen = False
     titleScreen = False
-    started = False
     settings = False
 
     timer.startTimer()
@@ -70,15 +67,8 @@ while True:
 
     if titleScreen:
         window.updateButtons()
-        window.drawTitleScreen( # Start button
-            (window.titleQuitButtonRect.collidepoint(mousePos), quit), # Quit Button
-            )
+        window.drawTitleScreen()
         
-        if window.startButton.active:
-            start(1)
-
-        if window.settingsButton.active:
-            settings = True
         if settings:
 
             if settingsQuit and settingsButtonTimer.getTimer() > buttonWait:
@@ -95,13 +85,14 @@ while True:
             )
 
         else:
-            if pygame.mouse.get_pressed()[0] and not previousPressed:
-                if window.titleQuitButtonRect.collidepoint(mousePos):
-                    quit = True
-                    buttonTimer.startTimer()
+            if window.titleQuitButton.active:
+                exit()
+                
+            if window.startButton.active:
+                start(1)
 
-        if quit and buttonTimer.getTimer() > buttonWait:
-            exit()
+            if window.settingsButton.active:
+                settings = True
 
     else:
         if pygame.mouse.get_pressed()[0] and not previousPressed:
