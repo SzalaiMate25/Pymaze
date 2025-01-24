@@ -60,8 +60,7 @@ class Button:
 
                 self.is_clicked = True
 
-                if self.timer.getTimer() > self.wait_time:
-                    self.active = True
+                self.active = self.timer.getTimer() > self.wait_time and not self.timer.getTimer() > self.wait_time + 0.1
 
             else:
                 self.is_clicked = False
