@@ -348,6 +348,7 @@ def drawTitleScreen(start, settings, quit):
 def loadSettingsTextures():
     global settingsWindow, settingsTitle
     global settingsQuit, settingsQuitHover, settingsQuitClicked
+    global switchOn, switchOnHover, switchOff, switchOffHover
 
     settingsWindow = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_window.png"), 2)
     settingsTitle = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_title.png"), 3)
@@ -357,9 +358,15 @@ def loadSettingsTextures():
     settingsQuitHover = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_hover.png"), 3)
     settingsQuitClicked = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_clicked.png"), 3)
 
+    switchOn = pygame.transform.scale_by(pygame.image.load("textures/settings/switch_on_inactive.png"), 3)
+    switchOnHover = pygame.transform.scale_by(pygame.image.load("textures/settings/switch_on_hover.png"), 3)
+    switchOff = pygame.transform.scale_by(pygame.image.load("textures/settings/switch_off_hover.png"), 3)
+    switchOffHover = pygame.transform.scale_by(pygame.image.load("textures/settings/switch_off_hover.png"), 3)
+
 def loadSettingsMenu():
     global settingsWindowRect, settingsTitleRect
     global settingsQuitRect, settingsQuitHoverRect, settingsQuitClickedRect
+    global soundSwitchOnPos, soundSwitchOffPos
 
     settingsWindowPos = (width / 2, height / 2)
     settingsWindowRect = settingsWindow.get_rect()
@@ -380,6 +387,11 @@ def loadSettingsMenu():
 
     settingsQuitClickedRect = settingsQuitClicked.get_rect()
     settingsQuitClickedRect.center = settingsQuitClickedPos
+
+    # switches
+
+    soundSwitchOnPos = (width * 3 / 4, height / 2 - 100)
+    soundSwitchOffPos = (width * 3 / 4 + 3, height / 2 - 100)
 
 
 def drawSettings(quit):

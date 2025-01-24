@@ -31,6 +31,10 @@ settings = False
 quit = False
 settingsQuit = False
 
+sound = True
+music = True
+jumpscare = False
+
 def start(d):
     global difficulty, playerPos, speed, maze, rects, direction, timer, run, windowOpen, titleScreen, started, settings
 
