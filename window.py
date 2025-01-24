@@ -25,7 +25,6 @@ def init(w, h, o, b):
     loadButtons()
     loadWindow()
     loadWindowButtons()
-    loadTitleScreenTextures()
     loadTitleScreen()
     loadSettingsTextures()
     loadSettingsMenu()
@@ -252,19 +251,8 @@ def drawWindow(difficulty, time, bestTime):
     screen.blit(buttonLarge, quitRect)
     screen.blit(quitText, quitTextRect)
 
-def loadTitleScreenTextures():
-    global titleQuitButton, titleQuitButtonHover, titleQuitButtonClicked
-    global title
-
-    titleQuitButton = pygame.transform.scale_by(pygame.image.load("textures/title_screen/quit_button_inactive.png"), 5)
-    titleQuitButtonHover = pygame.transform.scale_by(pygame.image.load("textures/title_screen/quit_button_hover.png"), 5.2)
-    titleQuitButtonClicked = pygame.transform.scale_by(pygame.image.load("textures/title_screen/quit_button_clicked.png"), 5.2)
-
-    title = pygame.transform.scale_by(pygame.image.load("textures/title_screen/main_title.png"), 8)
-
 def loadTitleScreen():
-    global startButton, settingsButton, titleQuitButton
-    global titleRect, buttons
+    global buttons, mainTitle, startButton, settingsButton, titleQuitButton
 
     # Start Button
     startButtonPos = (width / 2, height / 2 + buttonOffsets[1])
@@ -285,13 +273,12 @@ def loadTitleScreen():
 
     # Title
     titlePos = (width / 2, 175)
-    titleRect = title.get_rect()
-    titleRect.center = titlePos
+    mainTitle = gui_element.Element(texture.Texture("main_title", path=titleScreenPath, scale=8),titlePos)
 
 def drawTitleScreen():
     screen.fill(backgroundColor)
 
-    screen.blit(title, titleRect)
+    screen.blit(mainTitle.get_texture(), mainTitle.get_rect())
 
     screen.blit(startButton.get_active_texture(), startButton.get_active_rect())
     screen.blit(settingsButton.get_active_texture(), settingsButton.get_active_rect())
