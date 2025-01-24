@@ -58,13 +58,16 @@ class Button:
 
                 self.is_clicked = True
 
-                self.active = self.timer.getTimer() > self.wait_time and not self.timer.getTimer() > self.wait_time + 0.1
+                self.active = self.timer.getTimer() > self.wait_time and self.timer.getTimer() < self.wait_time + 0.1
 
             else:
                 self.is_clicked = False
+                self.active = False
 
         else:
             self.is_hover = False
+            self.is_clicked = False
+            self.active = False
 
     def get_active_texture(self):
         if self.is_clicked:

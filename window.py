@@ -268,10 +268,9 @@ def loadTitleScreenTextures():
     title = pygame.transform.scale_by(pygame.image.load("textures/title_screen/main_title.png"), 8)
 
 def loadTitleScreen():
-    global startButton
-    global settingsButtonRect, settingsButtonHoverRect, settingsButtonClickedRect
+    global startButton, settingsButton
     global titleQuitButtonRect, titleQuitButtonHoverRect, titleQuitButtonClickedRect
-    global titleRect
+    global titleRect, buttons
 
     # Start Button
     startButtonPos = (width / 2, height / 2 + buttonOffsets[1])
@@ -279,16 +278,7 @@ def loadTitleScreen():
 
     # Settings Button
     settingsButtonPos = (width / 2 + buttonOffsets[0], height / 2 + buttonOffsets[1])
-    settingsButtonClickedPos = (width / 2 + buttonOffsets[0], height / 2 + 5.2 + buttonOffsets[1])
-
-    settingsButtonRect = settingsButton.get_rect()
-    settingsButtonRect.center = settingsButtonPos
-
-    settingsButtonHoverRect = settingsButtonHover.get_rect()
-    settingsButtonHoverRect.center = settingsButtonPos
-
-    settingsButtonClickedRect = settingsButtonClicked.get_rect()
-    settingsButtonClickedRect.center = settingsButtonClickedPos
+    settingsButton = button.Button("settings_button", settingsButtonPos, path=titleScreenPath, scales=(5,5.2,5.2), offsets=((0,0), (0,0), (0,5.2)))
 
     # Quit Button
     titleQuitButtonPos = (width / 2 - buttonOffsets[0], height / 2 + buttonOffsets[1])
@@ -303,24 +293,22 @@ def loadTitleScreen():
     titleQuitButtonClickedRect = titleQuitButtonClicked.get_rect()
     titleQuitButtonClickedRect.center = titleQuitButtonClickedPos
 
+    buttons = []
+    buttons.append(startButton)
+    buttons.append(settingsButton)
+
     # Title
     titlePos = (width / 2, 175)
     titleRect = title.get_rect()
     titleRect.center = titlePos
 
-def drawTitleScreen(settings, quit):
+def drawTitleScreen(quit):
     screen.fill(backgroundColor)
 
     screen.blit(title, titleRect)
-    screen.blit(startButton.get_active_texture(), startButton.get_active_rect())
 
-    # settings button
-    if settings[1]:
-        screen.blit(settingsButtonClicked, settingsButtonClickedRect)
-    elif settings[0]:
-        screen.blit(settingsButtonHover, settingsButtonHoverRect)
-    else:
-        screen.blit(settingsButton, settingsButtonRect)
+    screen.blit(startButton.get_active_texture(), startButton.get_active_rect())
+    screen.blit(settingsButton.get_active_texture(), settingsButton.get_active_rect())
 
     # Quit button
     if quit[1]:
@@ -329,6 +317,10 @@ def drawTitleScreen(settings, quit):
         screen.blit(titleQuitButtonHover, titleQuitButtonHoverRect)
     else:
         screen.blit(titleQuitButton, titleQuitButtonRect)
+
+def updateButtons():
+    for button in buttons:
+        button.update(0)
 
 def loadSettingsTextures():
     global settingsWindow, settingsTitle

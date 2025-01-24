@@ -69,16 +69,17 @@ while True:
     mousePos = pygame.mouse.get_pos()
 
     if titleScreen:
-        window.startButton.update(0)
+        window.updateButtons()
         window.drawTitleScreen( # Start button
-            (window.settingsButtonRect.collidepoint(mousePos), settings), # Settings Button
             (window.titleQuitButtonRect.collidepoint(mousePos), quit), # Quit Button
             )
         
         if window.startButton.active:
             start(1)
 
-        if settings and buttonTimer.getTimer() > buttonWait:
+        if window.settingsButton.active:
+            settings = True
+        if settings:
 
             if settingsQuit and settingsButtonTimer.getTimer() > buttonWait:
                 settings = False
@@ -95,10 +96,6 @@ while True:
 
         else:
             if pygame.mouse.get_pressed()[0] and not previousPressed:
-                if window.settingsButtonRect.collidepoint(mousePos):
-                    settings = True
-                    buttonTimer.startTimer()
-
                 if window.titleQuitButtonRect.collidepoint(mousePos):
                     quit = True
                     buttonTimer.startTimer()
