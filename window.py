@@ -1,11 +1,17 @@
 import pygame
+import button
+import gui_element
+import texture
+
+titleScreenPath = "textures/title_screen/"
 
 def init(w, h, o, b):
     global width, height, screen, clock, offset, buttonOffsets
+
     width = w
     height = h
     offset = o
-    buttonOffsets = b # (x, y)
+    buttonOffsets = b
 
     pygame.init()
 
@@ -40,9 +46,9 @@ def loadButtons():
     hardPos = (360,50)
     exitPos = (width - 50, 50)
 
-    easyButtonRect = button.get_rect()
-    mediumButtonRect = button.get_rect()
-    hardButtonRect = button.get_rect()
+    easyButtonRect = buttonTexture.get_rect()
+    mediumButtonRect = buttonTexture.get_rect()
+    hardButtonRect = buttonTexture.get_rect()
     easyButtonRect.center = easyPos
     mediumButtonRect.center = mediumPos
     hardButtonRect.center = hardPos
@@ -72,9 +78,9 @@ def drawTimer(timer):
     screen.blit(timerText, timerRect)
 
 def drawButtons():
-    screen.blit(button, easyButtonRect)
-    screen.blit(button, mediumButtonRect)
-    screen.blit(button, hardButtonRect)
+    screen.blit(buttonTexture, easyButtonRect)
+    screen.blit(buttonTexture, mediumButtonRect)
+    screen.blit(buttonTexture, hardButtonRect)
 
     screen.blit(easyText, easyTextRect)
     screen.blit(mediumText, mediumTextRect)
@@ -102,7 +108,7 @@ def drawPlayer(pos, dir):
     screen.blit(player[dir], playerRect)
 
 def loadTextures(size):
-    global tiles, player, button
+    global tiles, player, buttonTexture
 
     tiles = {
         "#":pygame.transform.scale(pygame.image.load("textures/maze/wall.png"), (size,size)),
@@ -118,9 +124,9 @@ def loadTextures(size):
     ]
 
 def loadFixedTextures():
-    global button, window, close, buttonLarge
+    global buttonTexture, window, close, buttonLarge
 
-    button = pygame.image.load("textures/gui/button.png")
+    buttonTexture = pygame.image.load("textures/gui/button.png")
 
     window = pygame.image.load("textures/gui/window.png")
     close = pygame.image.load("textures/gui/close.png")
@@ -247,14 +253,9 @@ def drawWindow(difficulty, time, bestTime):
     screen.blit(quitText, quitTextRect)
 
 def loadTitleScreenTextures():
-    global startButton, startButtonHover, startButtonClicked
     global settingsButton, settingsButtonHover, settingsButtonClicked
     global titleQuitButton, titleQuitButtonHover, titleQuitButtonClicked
     global title
-
-    startButton = pygame.transform.scale_by(pygame.image.load("textures/title_screen/start_button_inactive.png"), 5)
-    startButtonHover = pygame.transform.scale_by(pygame.image.load("textures/title_screen/start_button_hover.png"), 5.2)
-    startButtonClicked = pygame.transform.scale_by(pygame.image.load("textures/title_screen/start_button_clicked.png"), 5.2)
 
     settingsButton = pygame.transform.scale_by(pygame.image.load("textures/title_screen/settings_button_inactive.png"), 5)
     settingsButtonHover = pygame.transform.scale_by(pygame.image.load("textures/title_screen/settings_button_hover.png"), 5.2)
@@ -267,23 +268,14 @@ def loadTitleScreenTextures():
     title = pygame.transform.scale_by(pygame.image.load("textures/title_screen/main_title.png"), 8)
 
 def loadTitleScreen():
-    global startButtonRect, startButtonHoverRect, startButtonClickedRect
+    global startButton
     global settingsButtonRect, settingsButtonHoverRect, settingsButtonClickedRect
     global titleQuitButtonRect, titleQuitButtonHoverRect, titleQuitButtonClickedRect
     global titleRect
 
     # Start Button
     startButtonPos = (width / 2, height / 2 + buttonOffsets[1])
-    startButtonClickedPos = (width / 2, height / 2 + 5.2 + buttonOffsets[1])
-
-    startButtonRect = startButton.get_rect()
-    startButtonRect.center = startButtonPos
-
-    startButtonHoverRect = startButtonHover.get_rect()
-    startButtonHoverRect.center = startButtonPos
-
-    startButtonClickedRect = startButtonClicked.get_rect()
-    startButtonClickedRect.center = startButtonClickedPos
+    startButton = button.Button("start_button", startButtonPos, path=titleScreenPath, scales=(5,5.2,5.2), offsets=((0,0), (0,0), (0,5.2)))
 
     # Settings Button
     settingsButtonPos = (width / 2 + buttonOffsets[0], height / 2 + buttonOffsets[1])
@@ -316,18 +308,11 @@ def loadTitleScreen():
     titleRect = title.get_rect()
     titleRect.center = titlePos
 
-def drawTitleScreen(start, settings, quit):
+def drawTitleScreen(settings, quit):
     screen.fill(backgroundColor)
 
     screen.blit(title, titleRect)
-
-    # start button
-    if start[1]:
-        screen.blit(startButtonClicked, startButtonClickedRect)
-    elif start[0]:
-        screen.blit(startButtonHover, startButtonHoverRect)
-    else:
-        screen.blit(startButton, startButtonRect)
+    screen.blit(startButton.get_active_texture(), startButton.get_active_rect())
 
     # settings button
     if settings[1]:
