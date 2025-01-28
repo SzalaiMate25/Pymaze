@@ -15,39 +15,79 @@ def createEmpty(size):
         map[i][size[1] - 1] = "+"
     return map
 
-def generate(map):
+def generate(map, algorithm="ab"):
     newMaze = maze.Maze(map, [[0 for j in range(len(map[0]))] for i in range(len(map))])
 
     pos = (2,2)
     dir = rand(0,3)
 
     highestDistance = 0
-    destination = (2,2)
+    destination = [2,2]
 
     newMaze.map[pos[0]][pos[1]] = "."
     visited = set()
 
     iterations = 0
     
-    while True:
-        iterations += 1
-        visited.add((pos[0],pos[1]))
+    if algorithm == "ab":
+        while True:
+            iterations += 1
+            visited.add((pos[0],pos[1]))
 
-        if rand(1,3) in (1,2):
-            dir = (dir + rand(-1,1) + 4) % 4
-        if newMaze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] != "+":
-            if newMaze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] == "#":
-                newMaze.map[pos[0] + offsets[dir][0]][pos[1] + offsets[dir][1]] = "."
-                newMaze.distances[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] = newMaze.distances[pos[0]][pos[1]] + 1
+            if rand(1,3) in (1,2):
+                dir = (dir + rand(-1,1) + 4) % 4
+            if newMaze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] != "+":
+                if newMaze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] == "#":
+                    newMaze.map[pos[0] + offsets[dir][0]][pos[1] + offsets[dir][1]] = "."
+                    newMaze.distances[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] = newMaze.distances[pos[0]][pos[1]] + 1
 
-                if newMaze.distances[pos[0]][pos[1]] + 1 > highestDistance:
-                    destination = (pos[0] + doffsets[dir][0], pos[1] + doffsets[dir][1])
-                    highestDistance = newMaze.distances[pos[0]][pos[1]] + 1
+                    if newMaze.distances[pos[0]][pos[1]] + 1 > highestDistance:
+                        destination = (pos[0] + doffsets[dir][0], pos[1] + doffsets[dir][1])
+                        highestDistance = newMaze.distances[pos[0]][pos[1]] + 1
+                
+                pos = (pos[0] + doffsets[dir][0], pos[1] + doffsets[dir][1])
+                newMaze.map[pos[0]][pos[1]] = "."
+
+                if len(visited) == int((newMaze.size[0] - 3)/2) * int((newMaze.size[1] - 3)/2):
+                    newMaze.map[destination[0]][destination[1]] = "F"
+                    newMaze.finishPos = [destination[0],destination[1]]
+                    return newMaze
+    elif algorithm == "rb":
+        while True:
+            distance = 0
             
-            pos = (pos[0] + doffsets[dir][0], pos[1] + doffsets[dir][1])
-            newMaze.map[pos[0]][pos[1]] = "."
-
-            if len(visited) == int((newMaze.size[0] - 3)/2) * int((newMaze.size[1] - 3)/2):
+            for i in range(4):
+                if newMaze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] == "#":
+                    newMaze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] = "."
+                    newMaze.map[pos[0] + offsets[dir][0]][pos[1] + offsets[dir][1]] = "."
+                    
+                    pos[0] += doffsets[dir][0]
+                    pos[1] += doffsets[dir][1]
+                    
+                    distance += 1
+                    
+                    if distance > highestDistance:
+                        highestDistance = copy(distance)
+                        destination = copy(pos)
+                    
+                    if rand(1,3) in (1,2):
+                        dir = (dir + rand(-1,1) + 4) % 4
+                        
+                    break
+                else:
+                    dir = (dir + 4) % 4
+            else:
+                wayBack = [newMaze.map[pos[0] + offsets[i][0]][pos[1] + offsets[i][1]] == "." for i in range(4)].index(True)
+                newMaze.map[pos[0]][pos[1]] = ":"
+                newMaze.map[pos[1] + offsets[wayBack][0]][pos[1] + offsets[wayBack][1]]
+                
+                pos[0] += doffsets[wayBack][0]
+                pos[1] += doffsets[wayBack][1]
+                
+                distance -= 1
+                
+            if pos == [2,2]:
                 newMaze.map[destination[0]][destination[1]] = "F"
                 newMaze.finishPos = [destination[0],destination[1]]
                 return newMaze
+                

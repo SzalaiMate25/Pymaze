@@ -45,7 +45,7 @@ def start(d):
 
     window.loadTextures(sizes[difficulty][1])
     window.createSingleRects()
-    maze = functions.generate(functions.createEmpty(sizes[difficulty][0]))
+    maze = functions.generate(functions.createEmpty(sizes[difficulty][0]), "rb")
 
     rects = window.generateRects(maze, sizes[difficulty][1])
     direction = 1
