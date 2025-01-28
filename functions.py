@@ -53,11 +53,12 @@ def generate(map, algorithm="ab"):
                     newMaze.finishPos = [destination[0],destination[1]]
                     return newMaze
     elif algorithm == "rb":
+        pos = [2,2]
+        distance = 0
+
         while True:
             iterations += 1
-            print(iterations)
-            distance = 0
-            
+
             for i in range(4):
                 if newMaze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] == "#":
                     newMaze.map[pos[0] + doffsets[dir][0]][pos[1] + doffsets[dir][1]] = "."
@@ -74,20 +75,20 @@ def generate(map, algorithm="ab"):
                     
                     if rand(1,3) in (1,2):
                         dir = (dir + rand(-1,1) + 4) % 4
-                        
+
                     break
                 else:
-                    dir = (dir + 4) % 4
+                    dir = (dir + 5) % 4
             else:
                 wayBack = [newMaze.map[pos[0] + offsets[i][0]][pos[1] + offsets[i][1]] == "." for i in range(4)].index(True)
                 newMaze.map[pos[0]][pos[1]] = ":"
-                newMaze.map[pos[1] + offsets[wayBack][0]][pos[1] + offsets[wayBack][1]]
+                newMaze.map[pos[0] + offsets[wayBack][0]][pos[1] + offsets[wayBack][1]] = ":"
                 
                 pos[0] += doffsets[wayBack][0]
                 pos[1] += doffsets[wayBack][1]
                 
                 distance -= 1
-                
+
             if pos == [2,2]:
                 newMaze.map[destination[0]][destination[1]] = "F"
                 newMaze.finishPos = [destination[0],destination[1]]
