@@ -26,9 +26,7 @@ timer = timer.Timer()
 
 titleScreen = True
 previousPressed = False
-started = False
 settings = False
-quit = False
 settingsQuit = False
 
 sound = True
@@ -36,7 +34,7 @@ music = True
 jumpscare = False
 
 def start(d):
-    global difficulty, playerPos, speed, maze, rects, direction, timer, run, windowOpen, titleScreen, started, settings
+    global difficulty, playerPos, speed, maze, rects, direction, timer, run, windowOpen, titleScreen, settings
 
     difficulty = d
 
@@ -53,7 +51,6 @@ def start(d):
     run = True
     windowOpen = False
     titleScreen = False
-    started = False
     settings = False
 
     timer.startTimer()
@@ -69,16 +66,10 @@ while True:
     mousePos = pygame.mouse.get_pos()
 
     if titleScreen:
-        window.drawTitleScreen(
-            (window.startButtonRect.collidepoint(mousePos), started), # Start button
-            (window.settingsButtonRect.collidepoint(mousePos), settings), # Settings Button
-            (window.titleQuitButtonRect.collidepoint(mousePos), quit), # Quit Button
-            )
+        window.updateButtons()
+        window.drawTitleScreen()
         
-        if started and buttonTimer.getTimer() > buttonWait:
-            start(1)
-
-        if settings and buttonTimer.getTimer() > buttonWait:
+        if settings:
 
             if settingsQuit and settingsButtonTimer.getTimer() > buttonWait:
                 settings = False
@@ -94,21 +85,14 @@ while True:
             )
 
         else:
-            if pygame.mouse.get_pressed()[0] and not previousPressed:
-                if window.startButtonRect.collidepoint(mousePos):
-                    started = True
-                    buttonTimer.startTimer()
+            if window.titleQuitButton.active:
+                exit()
                 
-                if window.settingsButtonRect.collidepoint(mousePos):
-                    settings = True
-                    buttonTimer.startTimer()
+            if window.startButton.active:
+                start(1)
 
-                if window.titleQuitButtonRect.collidepoint(mousePos):
-                    quit = True
-                    buttonTimer.startTimer()
-
-        if quit and buttonTimer.getTimer() > buttonWait:
-            exit()
+            if window.settingsButton.active:
+                settings = True
 
     else:
         if pygame.mouse.get_pressed()[0] and not previousPressed:
