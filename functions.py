@@ -54,6 +54,8 @@ def generate(map, algorithm="ab"):
                     return newMaze
     elif algorithm == "rb":
         while True:
+            iterations += 1
+            print(iterations)
             distance = 0
             
             for i in range(4):
