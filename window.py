@@ -1,9 +1,12 @@
+
 import pygame
 import button
 import gui_element
 import texture
+import gui_element
 
 titleScreenPath = "textures/title_screen/"
+settingsPath = "textures/settings/"
 
 def init(w, h, o, b):
     global width, height, screen, clock, offset, buttonOffsets
@@ -290,62 +293,34 @@ def updateButtons():
         button.update(0)
 
 def loadSettingsTextures():
-    global settingsWindow, settingsTitle
+    global settingsWindow
     global settingsQuit, settingsQuitHover, settingsQuitClicked
     global switchOn, switchOnHover, switchOff, switchOffHover
 
     settingsWindow = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_window.png"), 2)
-    settingsTitle = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_title.png"), 3)
 
     # Quit button
     settingsQuit = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_inactive.png"), 3)
     settingsQuitHover = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_hover.png"), 3)
     settingsQuitClicked = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_clicked.png"), 3)
 
-    switchOn = pygame.transform.scale_by(pygame.image.load("textures/settings/switch_on_inactive.png"), 3)
-    switchOnHover = pygame.transform.scale_by(pygame.image.load("textures/settings/switch_on_hover.png"), 3)
-    switchOff = pygame.transform.scale_by(pygame.image.load("textures/settings/switch_off_hover.png"), 3)
-    switchOffHover = pygame.transform.scale_by(pygame.image.load("textures/settings/switch_off_hover.png"), 3)
-
 def loadSettingsMenu():
-    global settingsWindowRect, settingsTitleRect
-    global settingsQuitRect, settingsQuitHoverRect, settingsQuitClickedRect
-    global soundSwitchOnPos, soundSwitchOffPos
+    global settingsWindowRect, settingsTitle
+    global settingsQuitButton
 
     settingsWindowPos = (width / 2, height / 2)
     settingsWindowRect = settingsWindow.get_rect()
     settingsWindowRect.center = settingsWindowPos
-    
+
     settingsTitlePos = (width / 2, settingsWindowRect.top + 85)
-    settingsTitleRect = settingsTitle.get_rect()
-    settingsTitleRect.center = settingsTitlePos
+    settingsTitle = gui_element.Element(texture.Texture("settings_title",path=settingsPath, scale=4), pos=settingsTitlePos)
 
     settingsQuitPos = (settingsWindowRect.right, settingsWindowRect.top)
-    settingsQuitClickedPos = (settingsWindowRect.right, settingsWindowRect.top + 3)
+    settingsQuitButton = button.Button("settings_quit", settingsQuitPos, path=settingsPath, scales=(4, 4.2, 4.2),offsets=((0, 0), (0, 0), (0, 4.2)))
 
-    settingsQuitRect = settingsQuit.get_rect()
-    settingsQuitRect.center = settingsQuitPos
+    buttons.append(settingsQuitButton)
 
-    settingsQuitHoverRect = settingsQuitHover.get_rect()
-    settingsQuitHoverRect.center = settingsQuitPos
-
-    settingsQuitClickedRect = settingsQuitClicked.get_rect()
-    settingsQuitClickedRect.center = settingsQuitClickedPos
-
-    # switches
-
-    soundSwitchOnPos = (width * 3 / 4, height / 2 - 100)
-    soundSwitchOffPos = (width * 3 / 4 + 3, height / 2 - 100)
-
-
-def drawSettings(quit):
+def drawSettings():
     screen.blit(settingsWindow, settingsWindowRect)
-    screen.blit(settingsTitle, settingsTitleRect)
-
-    # Quit button
-    if quit[1]:
-        screen.blit(settingsQuitClicked, settingsQuitClickedRect)
-    elif quit[0]:
-        screen.blit(settingsQuitHover, settingsQuitHoverRect)
-    else:
-        screen.blit(settingsQuit, settingsQuitRect)
+    screen.blit(settingsTitle.get_texture(), settingsTitle.get_rect())
+    screen.blit(settingsQuitButton.get_active_texture(), settingsQuitButton.get_active_rect())

@@ -5,6 +5,7 @@ import pygame
 import functions
 from sys import exit
 from copy import deepcopy as copy
+from gui_element import Element
 
 pygame.init()
 window.init(1080, 892, 100, (200, 100)) # The actual size of the maze will be 1080x792, as the top 100 pixels will be taken up by the GUI
@@ -71,18 +72,11 @@ while True:
         
         if settings:
 
-            if settingsQuit and settingsButtonTimer.getTimer() > buttonWait:
+            if window.settingsQuitButton.active:
                 settings = False
                 settingsQuit = False
 
-            if pygame.mouse.get_pressed()[0] and not previousPressed:
-                if window.settingsQuitRect.collidepoint(mousePos):
-                    settingsQuit = True
-                    settingsButtonTimer.startTimer()
-
-            window.drawSettings(
-                (window.settingsQuitRect.collidepoint(mousePos), settingsQuit)
-            )
+            window.drawSettings()
 
         else:
             if window.titleQuitButton.active:
