@@ -28,7 +28,6 @@ timer = timer.Timer()
 titleScreen = True
 previousPressed = False
 settings = False
-settingsQuit = False
 
 sound = True
 music = True
@@ -74,7 +73,6 @@ while True:
 
             if window.settingsQuitButton.active:
                 settings = False
-                settingsQuit = False
 
             window.drawSettings()
 
