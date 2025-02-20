@@ -29,7 +29,6 @@ def init(w, h, o, b):
     loadWindow()
     loadWindowButtons()
     loadTitleScreen()
-    loadSettingsTextures()
     loadSettingsMenu()
 
 def loadTimer():
@@ -291,17 +290,6 @@ def drawTitleScreen():
 def updateButtons():
     for button in buttons:
         button.update(0)
-
-def loadSettingsTextures():
-    global settingsQuit, settingsQuitHover, settingsQuitClicked
-    global switchOn, switchOnHover, switchOff, switchOffHover
-
-    settingsWindow = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_window.png"), 2)
-
-    # Quit button
-    settingsQuit = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_inactive.png"), 3)
-    settingsQuitHover = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_hover.png"), 3)
-    settingsQuitClicked = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_clicked.png"), 3)
 
 def loadSettingsMenu():
     global settingsWindow, settingsTitle
