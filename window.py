@@ -308,17 +308,17 @@ def loadSettingsMenu():
     global settingsQuitButton
 
     settingsWindowPos = (width / 2, height / 2)
-    settingsQuitButton = gui_element.Element(texture.Texture("settings_window")))
+    settingsWindow = gui_element.Element(texture.Texture("settings_window",scale=2,path=settingsPath), settingsWindowPos)
 
-    settingsTitlePos = (width / 2, settingsWindowRect.top + 85)
+    settingsTitlePos = (width / 2, settingsWindow.get_rect().top + 85)
     settingsTitle = gui_element.Element(texture.Texture("settings_title",path=settingsPath, scale=4), pos=settingsTitlePos)
 
-    settingsQuitPos = (settingsWindowRect.right, settingsWindowRect.top)
+    settingsQuitPos = (settingsWindow.get_rect().right, settingsWindow.get_rect().top)
     settingsQuitButton = button.Button("settings_quit", settingsQuitPos, path=settingsPath, scales=(4, 4.2, 4.2),offsets=((0, 0), (0, 0), (0, 4.2)))
 
     buttons.append(settingsQuitButton)
 
 def drawSettings():
-    screen.blit(settingsWindow, settingsWindowRect)
+    screen.blit(settingsWindow.get_texture(), settingsWindow.get_rect())
     screen.blit(settingsTitle.get_texture(), settingsTitle.get_rect())
     screen.blit(settingsQuitButton.get_active_texture(), settingsQuitButton.get_active_rect())
