@@ -293,7 +293,6 @@ def updateButtons():
         button.update(0)
 
 def loadSettingsTextures():
-    global settingsWindow
     global settingsQuit, settingsQuitHover, settingsQuitClicked
     global switchOn, switchOnHover, switchOff, switchOffHover
 
@@ -305,12 +304,11 @@ def loadSettingsTextures():
     settingsQuitClicked = pygame.transform.scale_by(pygame.image.load("textures/settings/settings_quit_clicked.png"), 3)
 
 def loadSettingsMenu():
-    global settingsWindowRect, settingsTitle
+    global settingsWindow, settingsTitle
     global settingsQuitButton
 
     settingsWindowPos = (width / 2, height / 2)
-    settingsWindowRect = settingsWindow.get_rect()
-    settingsWindowRect.center = settingsWindowPos
+    settingsQuitButton = gui_element.Element(texture.Texture("settings_window")))
 
     settingsTitlePos = (width / 2, settingsWindowRect.top + 85)
     settingsTitle = gui_element.Element(texture.Texture("settings_title",path=settingsPath, scale=4), pos=settingsTitlePos)
